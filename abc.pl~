@@ -25,15 +25,16 @@ consoante(w).
 consoante(x).
 consoante(y).
 consoante(z).
+concatena(X, Bs):- string_concat("p", X, Bs).
+transforma(Xs, Bs):- string_chars(Xs, Bs).
 
 frases([],[]).
-frases([X|Xs],[A|B]) :- palavra(X,A),frases(Xs,B).
+frases([X|Xs],[A|B]) :- palavra(X,A), frases(Xs,B).
 
 
 palavra([],[]).
-palavra([X|Xs],[C|D]) :- silaba(X,C),palavra(Xs,D).
+palavra([X|Xs],[C|D]) :- silaba(X,C), palavra(Xs,D).
 
+silaba(X, Rs) :- transforma(X, [C | Cs]), consoante(C), transforma(Ss, Cs), concatena(Ss, Qs), string_concat(X, Qs, Fs), atom_string(Rs, Fs).
+silaba(X, Rs)  :- transforma(X, [C | _Cs]), vogal(C), concatena(X, Qs), string_concat(X, Qs, Fs), atom_string(Fs,Qs).
 
-silaba([X|Xs],[X|[Xs|[p|Xs]]]) :- print(X), consoante(X).
-
-silaba([X|Xs],[X|[p|[X|Xs]]]) :-vogal(X).
